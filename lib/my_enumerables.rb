@@ -1,5 +1,9 @@
 module Enumerable
   # Your code goes here
+  def my_each_with_index(&block)
+    each_with_index(&block)
+    self
+  end
 end
 
 # You will first have to define my_each
@@ -8,4 +12,8 @@ end
 # to this method
 class Array
   # Define my_each here
+  def my_each(&block)
+    each(&block)
+    self
+  end
 end
