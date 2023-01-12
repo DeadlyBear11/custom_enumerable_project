@@ -1,7 +1,11 @@
 module Enumerable
   # Your code goes here
   def my_each_with_index(&block)
-    each_with_index(&block)
+    indxs = length - 1
+
+    for idx in (0..indxs) do
+      block.call(self[idx], idx)
+    end
     self
   end
 end
@@ -13,7 +17,9 @@ end
 class Array
   # Define my_each here
   def my_each(&block)
-    each(&block)
+    for el in self do
+      block.call el
+    end
     self
   end
 end
