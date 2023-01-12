@@ -17,6 +17,16 @@ module Enumerable
     end
     selection
   end
+
+  def my_all?(&block)
+    bools = []
+    for el in self do
+      bools.push(block.call(el))
+    end
+    return false if bools.include?(false)
+
+    true
+  end
 end
 
 # You will first have to define my_each
