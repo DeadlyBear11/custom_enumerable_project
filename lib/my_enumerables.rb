@@ -8,6 +8,15 @@ module Enumerable
     end
     self
   end
+
+  def my_select(&block)
+    selection = []
+    for el in self do
+      bool = block.call el
+      selection.push(el) if bool
+    end
+    selection
+  end
 end
 
 # You will first have to define my_each
