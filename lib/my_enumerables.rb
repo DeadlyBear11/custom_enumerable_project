@@ -1,37 +1,30 @@
 module Enumerable
   # Your code goes here
-  def my_each_with_index(&block)
+  def my_each_with_index
     indxs = length - 1
 
     for idx in (0..indxs) do
-      block.call(self[idx], idx)
+      yield(self[idx], idx)
     end
     self
   end
 
-  def my_select(&block)
+  def my_select
     selection = []
-    for el in self do
-      bool = block.call el
-      selection.push(el) if bool
-    end
+    my_each { |el| selection.push(el) if yield el }
     selection
   end
 
-  def my_all?(&block)
+  def my_all?
     bools = []
-    for el in self do
-      bools.push(block.call(el))
-    end
+    my_each { |el| bools.push(yield(el)) }
     return false if bools.include?(false)
 
     true
   end
 
-  def my_any?(&block)
-    for el in self do
-      return true if block.call el
-    end
+  def my_any?
+    my_each { |el| return true if yield el }
     false
   end
 
@@ -39,30 +32,24 @@ module Enumerable
     !my_any?(&block)
   end
 
-  def my_count(&block)
+  def my_count
     counter = 0
     if block_given?
-      for el in self do
-        counter += 1 if block.call el
-      end
+      my_each { |el| counter += 1 if yield el }
       counter
     else
       length
     end
   end
 
-  def my_map(&block)
+  def my_map
     arr = []
-    for el in self do
-      arr.push(block.call(el))
-    end
+    my_each { |el| arr.push(yield(el)) }
     arr
   end
 
-  def my_inject(init = 0, &block)
-    for el in self do
-      init = block.call init, el
-    end
+  def my_inject(init = 0, *)
+    my_each { |el| init = yield(init, el) }
     init
   end
 end
@@ -73,9 +60,9 @@ end
 # to this method
 class Array
   # Define my_each here
-  def my_each(&block)
+  def my_each
     for el in self do
-      block.call el
+      yield el
     end
     self
   end
